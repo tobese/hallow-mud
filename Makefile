@@ -1,8 +1,9 @@
-.PHONY: install run run-mud test clean help
+.PHONY: install run run-mud test clean help build
 
 PYTHON := python3
 VENV := venv
 VENV_BIN := $(VENV)/bin
+LLAMATALE := $(PWD)/LlamaTale
 
 help:
 	@echo "Hallow Mud - Makefile"
@@ -28,16 +29,14 @@ run:
 		echo "Virtual environment not found. Run 'make install' first."; \
 		exit 1; \
 	fi
-	@cd LlamaTale && ../$(VENV_BIN)/python -m tale.main --game ../hallow-mud-stories/hallow_mud --mode if || \
-	../$(VENV_BIN)/python -m tale.main --game stories/hallow_mud --mode if
+	cd $(LLAMATALE) && PYTHONPATH=$(LLAMATALE) $(PWD)/$(VENV_BIN)/python -m tale.main --game $(LLAMATALE)/stories/hallow_mud --mode if
 
 run-mud:
 	@if [ ! -f $(VENV_BIN)/python ]; then \
 		echo "Virtual environment not found. Run 'make install' first."; \
 		exit 1; \
 	fi
-	@cd LlamaTale && ../$(VENV_BIN)/python -m tale.main --game ../hallow-mud-stories/hallow_mud --mode mud || \
-	../$(VENV_BIN)/python -m tale.main --game stories/hallow_mud --mode mud
+	cd $(LLAMATALE) && PYTHONPATH=$(LLAMATALE) $(PWD)/$(VENV_BIN)/python -m tale.main --game $(LLAMATALE)/stories/hallow_mud --mode mud
 
 build:
 	@echo "Building..."
