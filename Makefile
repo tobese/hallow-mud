@@ -56,7 +56,9 @@ test:
 		echo "Virtual environment not found. Run 'make install' first."; \
 		exit 1; \
 	fi
-	$(VENV_BIN)/python -m pytest LlamaTale/tests/ -v 2>&1 | tail -30
+	# tests use paths relative to LlamaTale; remove the files they leave behind
+	cd $(LLAMATALE) && $(PWD)/$(VENV_BIN)/python -m pytest tests -q; status=$$?; \
+		rm -f world.json story_config.json tests/files/test_name.jpg tests/files/test_name2.jpg; exit $$status
 
 clean:
 	rm -rf $(VENV) __pycache__ LlamaTale/build LlamaTale/dist LlamaTale/*.egg-info
