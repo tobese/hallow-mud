@@ -1,0 +1,4 @@
+[submodule "LlamaTale"]
+	path = LlamaTale
+	url = https://github.com/tobese/LlamaTale.git
+	branch = hallow-mud

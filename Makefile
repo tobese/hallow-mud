@@ -16,6 +16,7 @@ help:
 	@echo "  make build      - Build the package"
 
 install:
+	git submodule update --init
 	@echo "Creating virtual environment..."
 	$(PYTHON) -m venv $(VENV)
 	@echo "Installing LlamaTale dependencies..."
@@ -29,14 +30,14 @@ run:
 		echo "Virtual environment not found. Run 'make install' first."; \
 		exit 1; \
 	fi
-	cd $(LLAMATALE) && PYTHONPATH=$(LLAMATALE) $(PWD)/$(VENV_BIN)/python -m tale.main --game $(LLAMATALE)/stories/hallow_mud --mode if
+	cd $(LLAMATALE) && PYTHONPATH=$(LLAMATALE) $(PWD)/$(VENV_BIN)/python -m tale.main --game $(PWD)/story --mode if
 
 run-mud:
 	@if [ ! -f $(VENV_BIN)/python ]; then \
 		echo "Virtual environment not found. Run 'make install' first."; \
 		exit 1; \
 	fi
-	cd $(LLAMATALE) && PYTHONPATH=$(LLAMATALE) $(PWD)/$(VENV_BIN)/python -m tale.main --game $(LLAMATALE)/stories/hallow_mud --mode mud
+	cd $(LLAMATALE) && PYTHONPATH=$(LLAMATALE) $(PWD)/$(VENV_BIN)/python -m tale.main --game $(PWD)/story --mode mud
 
 build:
 	@echo "Building..."
