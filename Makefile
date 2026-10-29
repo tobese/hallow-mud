@@ -1,5 +1,9 @@
 .PHONY: install run run-mud test clean help build sync-upstream
 
+# local secrets such as GEMINI_API_KEY, kept out of git
+-include .env
+export $(shell sed -n 's/^\([A-Za-z_][A-Za-z0-9_]*\)=.*/\1/p' .env 2>/dev/null)
+
 PYTHON := python3.13
 VENV := venv
 VENV_BIN := $(VENV)/bin
