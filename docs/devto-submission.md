@@ -17,7 +17,7 @@ tags: devchallenge, hf26challenge, gemma, python
 - **Näcken**, the water spirit from Swedish folklore, who followed the immigrants across the ocean and fiddles at the water's edge
 - **Gamle Lars**, the lamplighter: the last living soul who refused to flee
 
-Every NPC is played by an open-weight model. You talk to them in plain language; they answer in character, remember you, react to each other, and wander the Hollow on their own. The model rewrites every room description when the server starts, so each night's Hollow reads differently, and all players share it, so looking around never waits on the model.
+Every NPC is played by an open-weight model. You talk to them in plain language; they answer in character, remember you, react to each other, and some of them wander the Hollow on their own. The model rewrites every room description when the server starts, so each night's Hollow reads differently, and all players share it, so looking around never waits on the model.
 
 And then there is **the Stranger**. We didn't write them. At the start of each game, Gemma gets the story context and one question: *"Someone is here tonight who no one in the Hollow has ever seen before. Who are they?"* Whoever it invents steps out of the fog, and the rest of the cast has to deal with them. In one test run Gemma created Astrid Nylund, a woman with a rifle, who walked straight up to the lamplighter and started questioning him about what had changed in the Hollow. Nobody scripted that.
 
@@ -42,14 +42,14 @@ The game engine is a fork of [LlamaTale](https://github.com/neph1/LlamaTale) by 
 
 **Gemma, two ways.**
 
-- **Local:** `gemma3:12b` on Ollama, on a gaming laptop (RTX 4080, 12 GB VRAM) reached over Tailscale. I benchmarked Gemma 3 12B, Gemma 4 12B and Gemma 4 26B-A4B; Gemma 3 12B with an 8k context fits fully on the GPU at about 40 tokens/s, which is fast enough that NPCs answer while the scene is still fresh.
-- **Hosted:** `gemma-4-31b-it` through Google's Gemini API (OpenAI-compatible endpoint). Slower, but noticeably better prose, so it's the backend for demos.
+- **Local:** `gemma3:12b` on Ollama, on a gaming laptop (RTX 4080, 12 GB VRAM), with the game server running right next to it. I benchmarked Gemma 3 12B, Gemma 4 12B and Gemma 4 26B-A4B; Gemma 3 12B with an 8k context fits fully on the GPU at about 40 tokens/s, which is fast enough that NPCs answer while the scene is still fresh.
+- **Hosted:** `gemma-4-31b-it` through Google's Gemini API (OpenAI-compatible endpoint). Slower, but noticeably better prose, and it needs no GPU, so it's the backend for the always-on server on Render.
 
 Switching between them is one line in `llm_config.yaml`.
 
 **The engine.** LlamaTale is a MUD engine where the LLM narrates, plays NPCs, and builds world content through JSON-schema structured output. The story itself (zone, NPCs, quests, Swedish 1800s items such as the *lie* scythe and the *folkdräkt*) is plain Python in `story/`.
 
-**The look.** Each NPC has a portrait and each room a picture, in the style of hand-tinted 1870s tintypes. Gemini's image model painted them once, in advance, from the same descriptions Gemma plays the characters from; the script is in `tools/paint_resources.py`. The web client is restyled in Hacktoberfest's colours and fonts.
+**The look.** Each NPC has a portrait and each room a picture, in the style of hand-tinted 1870s tintypes. Gemini's image model painted them in advance, from the same descriptions Gemma plays the characters from (the script is in `tools/paint_resources.py`). The Stranger can't be painted in advance, so the game paints their portrait the moment Gemma invents them, before they step out of the fog. The web client is restyled in Hacktoberfest's colours and fonts.
 
 **What I had to fix along the way** (all on the fork, each with tests):
 
@@ -58,6 +58,11 @@ Switching between them is one line in `llm_config.yaml`.
 - When an NPC's dialogue couldn't be parsed, the player got `ERROR IN DRIVER MAINLOOP`; now the NPC just stares, lips moving, and no words come
 - An option to show only the generated text, instead of the original description followed by its rewrite
 - A save-path check that could be bypassed on macOS through `/private/etc`, plus test fixes for Python 3.11+
+- Every `look` asked the model to rewrite the room for that one player, so players queued behind each other for 20 to 30 seconds; now each room is rewritten once when the server starts and shared, and looking around is instant
+- In multiplayer, what you said reached the other players retold by the model; now they hear your words as you said them
+- New players who took more than a minute to create a character were destroyed by the Grim Reaper in Limbo mid sign-up
+- NPCs name each other when they talk, and every named NPC answered, so two of them could talk forever; now an NPC answers other NPCs once per player line
+- Stories can now ship their own stylesheet, and their pictures are found wherever the game is started from
 
 Two fixes went upstream as PRs: [#145](https://github.com/neph1/LlamaTale/pull/145), which neph1 has merged, and [#146](https://github.com/neph1/LlamaTale/pull/146).
 
@@ -104,12 +109,25 @@ The whole project started from this prompt to Claude Code:
 > Lets dive into the MUD!  
 > The Dungeon Master
 
+Besides some python version issues, that basically made a running system.
+
+From there the session kept going: the fixes to the engine listed above (two of them sent upstream as pull requests), the Stranger, the portraits, the theme, and the two public servers.
+
 ## The Spirit of It
 
-<!-- Optional: Swede Hollow was cleared in 1956 and is a park now. Why this place, for you? -->
+When the autumn is advancing, the wind is howling and Halloween is nigh, then the mood is set for a real adventure with terrifying encounters...
+
+When attending Uni, my friends and I were playing MUDs a lot. Today, I mostly play FFXIV, with stunning graphics and really advanced fighting. But it is the spirit of the game that matters, and MUDs still have it! 
+Coding has been done in really advanced environments like Visual Studio or JetBrains' many tools. Visual Studio Code was sort of a step backwards to a text editor, of course with plugins and tools for almost anything.
+
+Now, I am sitting with a command prompt again, but with agents it can do about anything! 
+And the terminal cursor really calls for an entry of *hallow-mud*.
+
+I recently stumbled on a MUD with an LLM, and this challenge felt like a perfect fit!
+And for a Swede, I thought that Swede Hollow would be a good setting.
 
 ## Prize Categories
 
-**Best Use of Gemma**: every NPC, every room description, and the Stranger are Gemma, run locally on Ollama or hosted via the Gemini API. (Only the pictures, the portraits and room pictures plus each night's portrait of the Stranger, come from Gemini's image model.)
+**Best Use of Gemma**: every NPC, every room description, and the Stranger are Gemma, run locally on Ollama or hosted via the Gemini API. (The pictures, including each night's portrait of the Stranger, come from Gemini's image model.)
 
-**Best Use of Render**: Render is the game's AI runtime and hosts its front end. The multiplayer server runs there as a Docker web service, built from the repo and deployed on every push to `main`: it runs the game, calls Gemma through the Gemini API for every NPC, room and Stranger, paints each night's Stranger, and serves the web client players connect to. See the `Dockerfile` and `render.yaml`.
+**Best Use of Render**: Render is the game's AI runtime and hosts its front end. The multiplayer server runs there as a Docker web service, built from the repo and deployed on every push to `main`: it runs the game, calls Gemma through the Gemini API for every NPC, room and Stranger, paints each night's Stranger, and serves the web client players connect to. See the `Dockerfile`.
