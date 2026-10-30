@@ -32,7 +32,7 @@ That's my take on *Ghost in the Machine*: a ghost that literally comes from the 
 
 ![Playing Hallow Mud: logging in, meeting Mor Brita in the cemetery and Näcken at the creek, with Gemma answering on the local GPU](https://raw.githubusercontent.com/tobese/hallow-mud/main/docs/hallow-mud-demo.gif)
 
-*A minute in the Hollow on the local server: Brita and Näcken each answer in under ten seconds.*
+*A minute in the Hollow on the local server: Brita and Näcken each answer within about fifteen seconds.*
 
 ## Code
 
