@@ -15,4 +15,4 @@ RUN sed -i "s/^BACKEND: .*/BACKEND: ${LLM_BACKEND}/" LlamaTale/llm_config.yaml
 ENV PYTHONPATH=/app/LlamaTale PYTHONUNBUFFERED=1 MUD_HOST=0.0.0.0
 WORKDIR /app/LlamaTale
 EXPOSE 8180
-CMD ["sh", "-c", "python /app/deploy/create_admin.py && exec python -m tale.main --game /app/story --mode mud"]
+CMD ["sh", "/app/deploy/start.sh"]
