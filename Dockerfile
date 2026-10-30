@@ -13,6 +13,12 @@ ARG LLM_BACKEND=gemini
 RUN sed -i "s/^BACKEND: .*/BACKEND: ${LLM_BACKEND}/" LlamaTale/llm_config.yaml
 
 ENV PYTHONPATH=/app/LlamaTale PYTHONUNBUFFERED=1 MUD_HOST=0.0.0.0
+# tale runs in the game folder and copies its images to ../../tale/web, so the game must sit in LlamaTale/stories
+RUN mv /app/story /app/LlamaTale/stories/hallow_mud
+
+# run as an unprivileged user who owns the app, since the game writes images and accounts at runtime
+RUN useradd --create-home hallow && chown -R hallow /app
+USER hallow
 WORKDIR /app/LlamaTale
 EXPOSE 8180
 CMD ["sh", "/app/deploy/start.sh"]
