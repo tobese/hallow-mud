@@ -76,7 +76,7 @@ Two fixes went upstream as PRs: [#145](https://github.com/neph1/LlamaTale/pull/1
 
 **One model family, two places to run it.** The same Gemma runs on my own GPU and on Google's API, so moving between them is a line in a config file, not a rewrite. The always-on server uses the API; the fast one uses the laptop.
 
-**Small stories get to exist.** Swede Hollow was a ravine of Swedish immigrant shacks in Saint Paul, cleared in 1956 and a park today. No product team would build a game about it. Open tools let one hobbyist do it in a week.
+**Small stories get to exist.** Swede Hollow was a ravine of Swedish immigrant shacks in Saint Paul, cleared in 1956 and a park today. No product team would build a game about it. Open tools let one hobbyist do it in a few days.
 
 ## My Agent Session
 
