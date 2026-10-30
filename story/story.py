@@ -34,7 +34,7 @@ class Story(DynamicStory):
 
     config = StoryConfig()
     config.name = "Hallow Mud"
-    config.author = "Hacktoberfest Contributor"
+    config.author = "the Dungeon Master and the ghost in the machine"
     config.author_address = ""
     config.version = tale.__version__
     config.supported_modes = {GameMode.IF, GameMode.MUD}
