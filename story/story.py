@@ -131,7 +131,8 @@ class Story(DynamicStory):
         """
         Called by the game driver when it has created the player object (after successful login).
         """
-        pass
+        import zones.hallow_mud
+        zones.hallow_mud.stranger_summoner.summon(self.driver, self)
 
     def create_account_dialog(self, playerconnection: PlayerConnection, playernaming: PlayerNaming) -> Generator:
         """

@@ -3,6 +3,7 @@ Swede Hollow zone locations
 """
 from tale.base import Location, Exit, Item
 from npcs.npcs import *
+from npcs.stranger import StrangerSummoner
 
 
 swede_hollow = Location("The heart of Swede Hollow", descr="""You stand in the muddy street of Swede Hollow on All Hallows' Eve, 1870.
@@ -50,5 +51,8 @@ cemetery.init_inventory([brita])
 cellar_entrance.init_inventory([gustaf])
 cellar.init_inventory([sigrid, gengangare, dalahorse])
 creek_bank.init_inventory([anders, nacken])
+
+# the stranger isn't written here; Gemma invents them each game
+stranger_summoner = StrangerSummoner(swede_hollow)
 
 all_locations = [swede_hollow, cemetery, cellar_entrance, cellar, creek_bank]
