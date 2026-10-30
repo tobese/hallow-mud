@@ -1,0 +1,286 @@
+/* Hallow Mud: Hacktoberfest colours and type over LlamaTale's web client (loaded after its style.css) */
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@700;800&family=Inter:wght@400;700&family=Martian+Mono:wght@400;600&display=swap");
+
+:root {
+    --night: #10201d;
+    --pine: #2e4742;
+    --moss: #52635f;
+    --sage: #8ca59e;
+    --bone: #f7f7f2;
+    --parchment: #e4e5da;
+    --lantern: #f5b726;
+    --ember: #e53927;
+    --blood: #671912;
+    --sky: #8bb2de;
+    --heading: "Barlow Semi Condensed", "Arial Narrow", sans-serif;
+    --prose: Inter, system-ui, sans-serif;
+    --mono: "Martian Mono", Menlo, Consolas, monospace;
+}
+
+body {
+    font-family: var(--prose);
+    font-size: 15px;
+    color: var(--parchment);
+    background:
+        radial-gradient(ellipse at 50% -10%, rgba(245, 183, 38, 0.10), transparent 55%),
+        radial-gradient(ellipse at 50% 120%, rgba(140, 165, 158, 0.16), transparent 60%),
+        var(--night);
+    background-attachment: fixed;
+    margin: 0;
+    padding: 16px;
+    min-height: 100%;
+    box-sizing: border-box;
+}
+
+#tale-page {
+    max-width: 1200px;
+}
+
+a {
+    color: var(--lantern);
+}
+a:hover {
+    color: var(--bone);
+}
+
+hr {
+    border: none;
+    border-top: 1px dashed var(--moss);
+}
+
+/* headings */
+h1, h2, h3, h4, h5 {
+    font-family: var(--heading);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    color: var(--bone);
+}
+h1 {
+    font-size: 2.4rem;
+    text-transform: uppercase;
+    text-shadow: 0 0 18px rgba(245, 183, 38, 0.35);
+    margin: 0.2em 0 0.4em;
+}
+h1::before {
+    content: "🎃 ";
+}
+#img-logo {
+    display: none;
+}
+
+/* the story text */
+#textframe {
+    background: rgba(16, 32, 29, 0.75);
+    border: 1px solid var(--pine);
+    border-radius: 6px;
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(140, 165, 158, 0.08);
+    padding: 12px 16px;
+    height: 60vh;
+}
+p {
+    line-height: 1.6;
+}
+
+.txt-monospaced, .txt-userinput, pre, #input-cmd, .text-field {
+    font-family: var(--mono);
+    font-size: 13px;
+}
+
+.txt-bright {
+    color: var(--lantern);
+}
+.txt-dim {
+    color: var(--sage);
+}
+.txt-location {
+    font-family: var(--heading);
+    font-size: 1.3em;
+    color: var(--lantern);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+.txt-rev {
+    background-color: var(--blood);
+    color: var(--bone);
+    padding: 0 4px;
+}
+.txt-userinput {
+    color: var(--sky);
+    font-style: normal;
+}
+.txt-userinput::before {
+    content: "› ";
+    color: var(--lantern);
+}
+.server-error {
+    background-color: var(--blood);
+    border-left: 4px solid var(--ember);
+    padding: 8px 12px;
+    font-style: normal;
+}
+
+/* someone speaking, with their portrait */
+.chat-container {
+    border: 1px solid var(--pine);
+    border-left: 3px solid var(--lantern);
+    border-radius: 6px;
+    background: rgba(46, 71, 66, 0.35);
+}
+.user-image {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid var(--lantern);
+}
+.text-field {
+    border: none;
+    color: var(--parchment);
+}
+
+/* the command line */
+#cmd-form {
+    border: 1px solid var(--pine);
+    border-radius: 6px;
+    background: rgba(46, 71, 66, 0.4);
+    gap: 6px;
+    flex-wrap: wrap;
+}
+#input-cmd, #cmd-form select, #cmd-form input[type="submit"], #saveDialog input, #saveDialog button {
+    background: var(--night);
+    color: var(--bone);
+    border: 1px solid var(--moss);
+    border-radius: 4px;
+    padding: 6px 8px;
+}
+#input-cmd {
+    flex: 1 1 200px;
+    width: auto;
+}
+#input-cmd:focus {
+    outline: 2px solid var(--lantern);
+    outline-offset: 1px;
+}
+#cmd-form input[type="submit"] {
+    background: var(--lantern);
+    color: var(--night);
+    border-color: var(--lantern);
+    font-weight: 700;
+    cursor: pointer;
+}
+#cmd-form input[type="submit"]:hover {
+    background: var(--bone);
+}
+#cmd-form #button-quit {
+    background: var(--blood);
+    border-color: var(--ember);
+}
+.flex-container input {
+    margin-left: 0;
+}
+.disabled-while-waiting {
+    opacity: 0.6;
+}
+.waiting-indicator {
+    color: var(--sage);
+    font-style: italic;
+}
+label[for="fileInput"] {
+    color: var(--sage);
+    font-size: 0.85rem;
+}
+
+/* the side panel: room picture, portraits of who is here, and the room summary */
+.location-container {
+    width: 360px;
+    margin-top: 0;
+    padding: 12px;
+    background: rgba(46, 71, 66, 0.3);
+    border: 1px solid var(--pine);
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+.location-image {
+    border-radius: 4px;
+    border: 1px solid var(--moss);
+    filter: sepia(0.25) contrast(1.05);
+}
+.npc-image {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    margin: 6px;
+    border-radius: 50%;
+    border: 2px solid var(--sage);
+}
+.location {
+    font-style: normal;
+    font-family: var(--heading);
+    font-size: 1.05rem;
+    color: var(--sage);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.location > span {
+    font-family: var(--prose);
+    font-size: 0.95rem;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--bone);
+}
+
+#dialogOverlay {
+    width: 100%;
+    background: rgba(16, 32, 29, 0.85);
+}
+#saveDialog {
+    background: var(--pine);
+    color: var(--bone);
+}
+
+/* the start page */
+.start-story-link {
+    display: inline-block;
+    font-family: var(--heading);
+    font-size: 1.6rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-shadow: none;
+    padding: 12px 28px;
+    border-radius: 4px;
+    background: var(--lantern);
+    color: var(--night);
+    box-shadow: 0 0 24px rgba(245, 183, 38, 0.35);
+}
+.start-story-link:hover {
+    background: var(--bone);
+    color: var(--night);
+}
+
+/* phones: the side panel goes under the story text */
+@media (max-width: 800px) {
+    body {
+        font-size: 14px;
+    }
+    h1 {
+        font-size: 1.6rem;
+    }
+    #storyFrame {
+        flex-direction: column;
+    }
+    #text-container {
+        margin-right: 0;
+    }
+    #textframe {
+        height: 55vh;
+    }
+    .location-container {
+        width: 100%;
+        margin-top: 12px;
+    }
+    .npc-dropdown, .action-dropdown {
+        flex: 1 1 40%;
+        width: auto;
+    }
+}
