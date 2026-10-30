@@ -17,7 +17,7 @@ tags: devchallenge, hf26challenge, gemma, python
 - **Näcken**, the water spirit from Swedish folklore, who followed the immigrants across the ocean and fiddles at the water's edge
 - **Gamle Lars**, the lamplighter: the last living soul who refused to flee
 
-Every NPC is played by an open-weight model. You talk to them in plain language; they answer in character, remember you, react to each other, and wander the Hollow on their own. Room descriptions are rewritten live, so the same cemetery never reads the same way twice.
+Every NPC is played by an open-weight model. You talk to them in plain language; they answer in character, remember you, react to each other, and wander the Hollow on their own. The model rewrites every room description when the server starts, so each night's Hollow reads differently, and all players share it, so looking around never waits on the model.
 
 And then there is **the Stranger**. We didn't write them. At the start of each game, Gemma gets the story context and one question: *"Someone is here tonight who no one in the Hollow has ever seen before. Who are they?"* Whoever it invents steps out of the fog, and the rest of the cast has to deal with them. In one test run Gemma created Astrid Nylund, a woman with a rifle, who walked straight up to the lamplighter and started questioning him about what had changed in the Hollow. Nobody scripted that.
 

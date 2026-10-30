@@ -8,7 +8,7 @@ Built for the [Hacktoberfest Open-Source AI Challenge, Week 4: Ghost in the Mach
 
 - **NPCs written by us, played by Gemma:** Mor Brita, the cholera ghost searching for her son's wooden horse; Järn-Gustaf, the dead brewery worker still guarding the cellar stairs; Fru Sigrid, the vampire in the cellars; Varg-Anders, the trapper turning into something else; Näcken, the water spirit fiddling by the creek; and Gamle Lars, the frightened lamplighter. Talk to them in plain language; they answer in character, remember you and react to each other.
 - **The Stranger, written by no one:** each game, Gemma gets only the story context and the question *"Someone is here tonight who no one in the Hollow has ever seen before. Who are they?"* Whoever it invents steps out of the fog. See [`story/npcs/stranger.py`](story/npcs/stranger.py).
-- **Room descriptions rewritten live** by the model, so the Hollow never reads the same way twice.
+- **Room descriptions rewritten by the model** when the server starts, so each night's Hollow reads differently. All players share the rewrite, so looking around is instant.
 
 ## Running it
 
