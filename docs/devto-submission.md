@@ -68,11 +68,15 @@ Two fixes went upstream as PRs: [#145](https://github.com/neph1/LlamaTale/pull/1
 
 ## Why Does Open Innovation Matter?
 
-<!-- TODO: in your own words. Points to draw from:
-- The whole stack is open: Tale (2010s MUD framework) → LlamaTale (LLM layer) → our fork. We could fix the engine instead of working around it, and send the fixes back.
-- Open weights mean the game runs on a laptop in the house, offline, with no per-token bill: NPCs can chatter to each other all night.
-- The same Gemma model family runs locally and hosted, so moving between them is a config line, not a rewrite.
-- Swede Hollow's history is a local story that no product team would build a game about; open tools let a hobbyist do it in a week. -->
+**The whole stack is open, so I could fix it instead of working around it.** Tale is a MUD framework from the 2010s, LlamaTale adds the LLM layer on top, and Hallow Mud is a fork of that. When the engine got something wrong, like NPCs never hearing `say to`, I fixed it in the engine, with tests, and sent the fixes back upstream. One has already been merged.
+
+**Open weights are faster here, not just cheaper.** Gemma 3 12B runs on the laptop next to the game server, so an NPC answers in about ten seconds. The same conversation through a hosted API took close to a minute. For a game, that's the difference between talking to someone and waiting for a letter.
+
+**Open weights mean no bill per word.** Running locally there is no per-token cost, so the NPCs can gossip with each other, rewrite the rooms and react to everything all night long without anyone watching a meter.
+
+**One model family, two places to run it.** The same Gemma runs on my own GPU and on Google's API, so moving between them is a line in a config file, not a rewrite. The always-on server uses the API; the fast one uses the laptop.
+
+**Small stories get to exist.** Swede Hollow was a ravine of Swedish immigrant shacks in Saint Paul, cleared in 1956 and a park today. No product team would build a game about it. Open tools let one hobbyist do it in a week.
 
 ## My Agent Session
 
