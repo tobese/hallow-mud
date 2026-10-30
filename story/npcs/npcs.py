@@ -3,17 +3,39 @@ The restless dead (and a few of the living) of Swede Hollow, All Hallows' Eve 18
 """
 import random
 
+import tale.llm.llm_cache as llm_cache
 from tale.base import Living, ParseResult, Weapon
 from tale.llm.LivingNpc import LivingNpc
+from tale.player import Player
 from tale.quest import Quest, QuestType
-from tale.resources_utils import pad_text_for_avatar
+from tale.resources_utils import pad_text_for_avatar, unpad_text
 from tale.util import call_periodically, Context
 
 from tale.skills.weapon_type import WeaponType
 
 
+# how many times an NPC answers other NPCs before a player speaks again; NPCs name each other
+# when they talk, so without a limit two of them keep a conversation going forever
+NPC_REPLIES_PER_PLAYER_LINE = 1
+
+
 class HollowDweller(LivingNpc):
     """ A (former) inhabitant of the Hollow who idles when a player is nearby."""
+
+    def init(self) -> None:
+        super().init()
+        self.npc_replies = 0
+
+    def notify_action(self, parsed: ParseResult, actor: Living) -> None:
+        if isinstance(actor, Player) and parsed.verb in ("say", "hi", "hello", "greet"):
+            self.npc_replies = 0
+        elif isinstance(actor, LivingNpc) and actor is not self and parsed.verb in ("say", "hi", "hello", "greet"):
+            if self.npc_replies >= NPC_REPLIES_PER_PLAYER_LINE:
+                # still heard and remembered, just not answered
+                self._observed_events.append(llm_cache.cache_event(unpad_text(parsed.unparsed)))
+                return
+            self.npc_replies += 1
+        super().notify_action(parsed, actor)
 
     @call_periodically(75, 180)
     def do_idle_action(self, ctx: Context) -> None:
@@ -36,6 +58,7 @@ class Wanderer(HollowDweller):
 class Werewolf(HollowDweller):
 
     def init(self) -> None:
+        super().init()
         self.stats.weapon_skills.set(weapon_type=WeaponType.UNARMED, value=70)
 
 
@@ -43,6 +66,7 @@ class Nacken(HollowDweller):
     """ The water spirit, who fights with (and never stops playing) his fiddle."""
 
     def init(self) -> None:
+        super().init()
         self.stats.weapon_skills.set(weapon_type=WeaponType.ONE_HANDED, value=60)
 
     @call_periodically(30, 60)
