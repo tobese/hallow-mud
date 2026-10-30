@@ -1,32 +1,21 @@
 """
 Paint the portraits and room pictures in story/resources with Gemini's image model.
 
-LlamaTale shows <name>.jpg for an NPC or location, named in lower case with spaces as
-underscores: portraits at 512x512, rooms at 512x320. Needs GEMINI_API_KEY (or .env).
+Needs GEMINI_API_KEY (or .env). The style lives in story/tintype.py, shared with the game,
+which paints the Stranger's portrait when Gemma invents them.
 
     python tools/paint_resources.py            # paint missing images
     python tools/paint_resources.py lars_öberg  # repaint one
 """
-import base64
-import io
 import os
 import pathlib
 import sys
-import time
 
-import requests
-from PIL import Image
-
-MODEL = "gemini-3.1-flash-image"
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 RESOURCES = ROOT / "story" / "resources"
+sys.path.insert(0, str(ROOT / "story"))
 
-STYLE = ("A hand-tinted 1870s tintype photograph, Swedish immigrant shantytown Swede Hollow in Saint Paul, "
-         "All Hallows' Eve night with fog and lantern light. Muted palette of deep forest green, pine, sage and "
-         "bone-white, with warm lantern-gold highlights and small touches of blood red. Grainy, eerie, atmospheric. "
-         "No text, no lettering, no border, no frame.")
-PORTRAIT = "Head-and-shoulders portrait, centred, looking at the viewer, dark misty background. "
-ROOM = "Wide establishing shot, no people. "
+from tintype import paint_portrait, paint_room  # noqa: E402
 
 PORTRAITS = {
     "brita_lindqvist": "The ghost of a pale, translucent young Swedish woman of 29 in a faded blue folk costume and a white linen headscarf, hollow cheeks from fever, sorrowful eyes.",
@@ -57,42 +46,15 @@ def api_key() -> str:
     return key
 
 
-def paint(prompt: str, aspect: str) -> Image.Image:
-    for attempt in range(4):
-        response = requests.post(
-            f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent",
-            headers={"x-goog-api-key": api_key()},
-            json={"contents": [{"parts": [{"text": prompt}]}],
-                  "generationConfig": {"responseModalities": ["IMAGE"], "imageConfig": {"aspectRatio": aspect}}},
-            timeout=300)
-        # the image model is often briefly overloaded
-        if response.status_code not in (429, 500, 503):
-            break
-        time.sleep(10 * (attempt + 1))
-    response.raise_for_status()
-    for part in response.json()["candidates"][0]["content"]["parts"]:
-        if "inlineData" in part:
-            return Image.open(io.BytesIO(base64.b64decode(part["inlineData"]["data"]))).convert("RGB")
-    raise RuntimeError("no image in the response")
-
-
-def fit(image: Image.Image, width: int, height: int) -> Image.Image:
-    """Scale to cover width x height and crop the middle."""
-    scale = max(width / image.width, height / image.height)
-    image = image.resize((round(image.width * scale), round(image.height * scale)), Image.LANCZOS)
-    left, top = (image.width - width) // 2, (image.height - height) // 2
-    return image.crop((left, top, left + width, top + height))
-
-
 def main(only: list) -> None:
-    jobs = [(name, PORTRAIT + subject, "1:1", (512, 512)) for name, subject in PORTRAITS.items()]
-    jobs += [(name, ROOM + subject, "16:9", (512, 320)) for name, subject in ROOMS.items()]
-    for name, subject, aspect, size in jobs:
+    jobs = [(name, subject, paint_portrait) for name, subject in PORTRAITS.items()]
+    jobs += [(name, subject, paint_room) for name, subject in ROOMS.items()]
+    for name, subject, painter in jobs:
         path = RESOURCES / f"{name}.jpg"
         if (only and name not in only) or (not only and path.exists()):
             continue
         print(f"painting {path.name}")
-        fit(paint(f"{subject} {STYLE}", aspect), *size).save(path, quality=85)
+        painter(subject, api_key()).save(path, quality=85)
 
 
 if __name__ == "__main__":

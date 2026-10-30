@@ -156,6 +156,11 @@ p {
 #input-cmd {
     flex: 1 1 200px;
     width: auto;
+    /* the client script sets black or grey inline, unreadable on the dark field */
+    color: var(--bone) !important;
+}
+#input-cmd::placeholder {
+    color: var(--sage);
 }
 #input-cmd:focus {
     outline: 2px solid var(--lantern);
@@ -182,7 +187,7 @@ p {
     opacity: 0.6;
 }
 .waiting-indicator {
-    color: var(--sage);
+    color: var(--sage) !important;
     font-style: italic;
 }
 label[for="fileInput"] {
