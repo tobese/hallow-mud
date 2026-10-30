@@ -1,0 +1,21 @@
+# Hallow Mud on a machine with its own Ollama (our q-bert), as the user who cloned the repo.
+# Install: sudo cp deploy/hallow-mud.service /etc/systemd/system/ && sudo systemctl enable --now hallow-mud
+# Expects the repo at ~agent/hallow-mud after `make install`, with .env holding HALLOW_ADMIN_PASSWORD
+# (and GEMINI_API_KEY for the Stranger's portrait).
+[Unit]
+Description=Hallow Mud
+After=network-online.target ollama.service
+Wants=network-online.target
+
+[Service]
+User=agent
+WorkingDirectory=/home/agent/hallow-mud/LlamaTale
+EnvironmentFile=/home/agent/hallow-mud/.env
+Environment=PYTHONPATH=/home/agent/hallow-mud/LlamaTale PYTHONUNBUFFERED=1
+ExecStartPre=/home/agent/hallow-mud/venv/bin/python /home/agent/hallow-mud/deploy/create_admin.py
+ExecStart=/home/agent/hallow-mud/venv/bin/python -m tale.main --game /home/agent/hallow-mud/story --mode mud
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
