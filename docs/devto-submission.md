@@ -25,6 +25,8 @@ That's my take on *Ghost in the Machine*: a ghost that literally comes from the 
 
 ## Demo
 
+**Play it:** [hallow-mud.onrender.com](https://hallow-mud.onrender.com/tale/). Pick a name, create a character, and you're in the Hollow with whoever else is online. It runs on Render's free plan, so the first visit after a quiet spell takes about a minute to wake up, and accounts reset whenever the server restarts. Gemma on the Gemini API is slow to think, so NPCs can take a little while to answer.
+
 <!-- TODO: video link -->
 
 ## Code
@@ -74,4 +76,6 @@ Two fixes went upstream as PRs: [#145](https://github.com/neph1/LlamaTale/pull/1
 
 ## Prize Categories
 
-**Best Use of Gemma**: every NPC, every room description, and the Stranger are Gemma, run locally on Ollama or hosted via the Gemini API. (Only the static portraits and room pictures come from Gemini's image model.)
+**Best Use of Gemma**: every NPC, every room description, and the Stranger are Gemma, run locally on Ollama or hosted via the Gemini API. (Only the pictures, the portraits and room pictures plus each night's portrait of the Stranger, come from Gemini's image model.)
+
+**Best Use of Render**: Render is the game's AI runtime and hosts its front end. The multiplayer server runs there as a Docker web service, built from the repo and deployed on every push to `main`: it runs the game, calls Gemma through the Gemini API for every NPC, room and Stranger, paints each night's Stranger, and serves the web client players connect to. See the `Dockerfile` and `render.yaml`.
