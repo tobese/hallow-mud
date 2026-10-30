@@ -32,7 +32,12 @@ def main() -> None:
     if mud_accounts.all_accounts(having_privilege="wizard"):
         return
     stats = base.Stats.from_race("human", gender="n")
-    mud_accounts.create(name, password, f"{name}@hallow-mud.invalid", stats, privileges={"wizard"})
+    try:
+        mud_accounts.create(name, password, f"{name}@hallow-mud.invalid", stats, privileges={"wizard"})
+    except ValueError as x:
+        # start the server anyway; the first visitor will be asked to create the admin account
+        print(f"Admin account '{name}' not created: {x}")
+        return
     print(f"Created admin account '{name}'.")
 
 
