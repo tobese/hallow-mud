@@ -44,6 +44,8 @@ Switching between them is one line in `llm_config.yaml`.
 
 **The engine.** LlamaTale is a MUD engine where the LLM narrates, plays NPCs, and builds world content through JSON-schema structured output. The story itself (zone, NPCs, quests, Swedish 1800s items such as the *lie* scythe and the *folkdräkt*) is plain Python in `story/`.
 
+**The look.** Each NPC has a portrait and each room a picture, in the style of hand-tinted 1870s tintypes. Gemini's image model painted them once, in advance, from the same descriptions Gemma plays the characters from; the script is in `tools/paint_resources.py`. The web client is restyled in Hacktoberfest's colours and fonts.
+
 **What I had to fix along the way** (all on the fork, each with tests):
 
 - `say to <npc>` never reached the NPC, and NPC names matched case-sensitively
@@ -52,7 +54,7 @@ Switching between them is one line in `llm_config.yaml`.
 - An option to show only the generated text, instead of the original description followed by its rewrite
 - A save-path check that could be bypassed on macOS through `/private/etc`, plus test fixes for Python 3.11+
 
-The first two fixes went upstream as PRs ([#145](https://github.com/neph1/LlamaTale/pull/145), [#146](https://github.com/neph1/LlamaTale/pull/146)).
+Two fixes went upstream as PRs: [#145](https://github.com/neph1/LlamaTale/pull/145), which neph1 has merged, and [#146](https://github.com/neph1/LlamaTale/pull/146).
 
 ## Why Does Open Innovation Matter?
 
@@ -72,4 +74,4 @@ The first two fixes went upstream as PRs ([#145](https://github.com/neph1/LlamaT
 
 ## Prize Categories
 
-**Best Use of Gemma**: every NPC, every room description, and the Stranger are Gemma, run locally on Ollama or hosted via the Gemini API.
+**Best Use of Gemma**: every NPC, every room description, and the Stranger are Gemma, run locally on Ollama or hosted via the Gemini API. (Only the static portraits and room pictures come from Gemini's image model.)
