@@ -11,6 +11,11 @@ Built for the [Hacktoberfest Open-Source AI Challenge, Week 4: Ghost in the Mach
 - **Room descriptions rewritten by the model** when the server starts, so each night's Hollow reads differently. All players share the rewrite, so looking around is instant.
 - **Portraits and room pictures** in the style of hand-tinted 1870s tintypes, painted once in advance by Gemini's image model from the game's own descriptions ([`tools/paint_resources.py`](tools/paint_resources.py)). The web client wears Hacktoberfest's colours ([`story/resources/story.css`](story/resources/story.css)).
 
+## Play it
+
+- **[q-bert.bearded-panga.ts.net](https://q-bert.bearded-panga.ts.net/tale/)**: local Gemma on our own GPU, published with Tailscale Funnel; fast, but only up while that machine is.
+- **[hallow-mud.onrender.com](https://hallow-mud.onrender.com/tale/)**: Gemma on the Gemini API, on Render's free plan; always there, slow to wake and to think.
+
 ## Running it
 
 Requires Python 3.13.
