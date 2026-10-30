@@ -1,0 +1,6 @@
+.git
+**/.git
+venv
+.env
+**/__pycache__
+**/tale_crash.log

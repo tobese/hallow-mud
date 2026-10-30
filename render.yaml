@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: hallow-mud
+    runtime: docker
+    plan: free
+    healthCheckPath: /tale/
+    # deploy pushes to main once the GitHub Actions tests pass
+    autoDeployTrigger: checksPass
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: HALLOW_ADMIN_PASSWORD
+        generateValue: true
