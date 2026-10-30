@@ -3,11 +3,14 @@ Hallow Mud - A Halloween-themed LLM MUD set in Swede Hollow, Saint Paul
 
 'Tale' mud driver, mudlib and interactive fiction framework
 """
+import os
 import pathlib
 import sys
+import threading
 from typing import Optional, Generator
 
 import tale
+from tale import util
 from tale.base import Location, Weapon, Wearable
 from tale.cmds import spells
 from tale.driver import Driver
@@ -22,6 +25,7 @@ from tale.skills.skills import SkillType
 from tale.story import *
 from tale.skills.weapon_type import WeaponType
 from tale.story_context import StoryContext
+from tale.util import Context
 from tale.wearable import WearLocation
 from tale.zone import Zone
 
@@ -41,6 +45,9 @@ class Story(DynamicStory):
     config.server_tick_time = 0.5
     config.gametime_to_realtime = 5
     config.display_gametime = True
+    # hosting platforms such as Render set PORT; empty values fall back to localhost:8180
+    config.mud_host = os.environ.get("MUD_HOST", "")
+    config.mud_port = int(os.environ.get("PORT", 0))
     config.startlocation_player = "hallow_mud.swede_hollow"
     config.startlocation_wizard = "hallow_mud.swede_hollow"
     config.zones = ["hallow_mud"]
@@ -56,6 +63,8 @@ class Story(DynamicStory):
     def init(self, driver: Driver) -> None:
         """Called by the game driver when it is done with its initial initialization."""
         self.driver = driver
+        # runs once the game loop has started and the LLM knows the story
+        driver.defer(1.0, self._warm_up_rooms)
         self._zones = dict()
 
         hallow_zone = Zone(
@@ -126,6 +135,20 @@ class Story(DynamicStory):
         )
         self._catalogue._items = [folkdrakt.to_dict(), lie.to_dict(), sledgehammer.to_dict(),
                                   food_ration.to_dict(), lantern.to_dict()]
+
+    def _warm_up_rooms(self, ctx: Context) -> None:
+        """ Have the LLM rewrite every room in the background, so no player waits for a room description."""
+        import zones.hallow_mud
+        for location in zones.hallow_mud.all_locations:
+            threading.Thread(target=self._rewrite_room, args=(ctx.driver.llm_util, location), daemon=True).start()
+
+    @staticmethod
+    def _rewrite_room(llm_util, location: Location) -> None:
+        try:
+            # the same text Player.look evokes, so the rewrite lands in the cache it reads from
+            llm_util.evoke('\n'.join(location.look_room()))
+        except Exception as exc:
+            util._get_crash_logger().warning('Failed to rewrite %s: %s', location.name, exc)
 
     def init_player(self, player: Player) -> None:
         """
