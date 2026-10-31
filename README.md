@@ -15,7 +15,7 @@ Built for the [Hacktoberfest Open-Source AI Challenge, Week 4: Ghost in the Mach
 
 - **[q-bert.bearded-panga.ts.net](https://q-bert.bearded-panga.ts.net/tale/)**: local Gemma on our own GPU, published with Tailscale Funnel; fast, but only up while that machine is.
 - **[hallow-mud.onrender.com](https://hallow-mud.onrender.com/tale/)**: Gemma on the Gemini API, on Render's free plan; always there, slow to wake and to think.
-- **[hallow-mud-terminal.onrender.com](https://hallow-mud-terminal.onrender.com/)**: the old way, a terminal in the browser (ttyd) with a single-player game of your own per tab; same Gemini backend, three players at a time. Names are lowercase, and wait for the `>>` prompt before typing.
+- **[hallow-mud-terminal.onrender.com](https://hallow-mud-terminal.onrender.com/)**: the old way, a terminal in the browser (ttyd) that mimics the telnet sessions MUDs were played in (Render only serves HTTP, so real telnet isn't possible there), with a single-player game of your own per tab; same Gemini backend, three players at a time. Names are lowercase, and wait for the `>>` prompt before typing.
 
 ## Running it
 

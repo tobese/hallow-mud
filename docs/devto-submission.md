@@ -23,7 +23,7 @@ And you can fight. Take the gravedigger's scythe from the cemetery or the brewer
 
 ![A fight in the root cellar: the player takes the brewery sledgehammer, goes down to the cellar and fights the gengångare while the lamplighter and the vampire talk, kills it, and the Stranger arrives](https://raw.githubusercontent.com/tobese/hallow-mud/main/docs/hallow-mud-fight.gif)
 
-And the same fight the old way, in the terminal version, alone in the Hollow:
+And the same fight the old way, in the terminal version, made to look like the telnet sessions MUDs were played in, alone in the Hollow:
 
 ![The same fight in the browser terminal: the player walks to the cellar door, takes and wields the sledgehammer, goes down and kills the gengångare with one blow, and the vampire looks at the remains with distaste](https://raw.githubusercontent.com/tobese/hallow-mud/main/docs/hallow-mud-fight-terminal.gif)
 
@@ -37,7 +37,7 @@ That's my take on *Ghost in the Machine*: a ghost that literally comes from the 
 
 - [q-bert.bearded-panga.ts.net](https://q-bert.bearded-panga.ts.net/tale/): the fast one. Gemma 3 12B runs on the laptop GPU in my home, and the game sits next to it, published with Tailscale Funnel. NPCs answer in seconds. It's a laptop, so it may be asleep.
 - [hallow-mud.onrender.com](https://hallow-mud.onrender.com/tale/): always there. It runs on Render's free plan with Gemma on the Gemini API, so the first visit after a quiet spell takes about a minute to wake up, accounts reset whenever the server restarts, and NPCs take a while to think.
-- [hallow-mud-terminal.onrender.com](https://hallow-mud-terminal.onrender.com/): the old way. A terminal in the browser, like the MUDs we telnetted to at university, with a game of your own in each tab: just you, the dead of the Hollow and the Stranger. Same Gemma on the Gemini API, room for three players at a time.
+- [hallow-mud-terminal.onrender.com](https://hallow-mud-terminal.onrender.com/): the old way. Green-on-black text and a blinking cursor, made to look and feel like the telnet sessions we played MUDs in at university. Render only serves the web, so the terminal runs in your browser, with a game of your own in each tab: just you, the dead of the Hollow and the Stranger. Same Gemma on the Gemini API, room for three players at a time.
 
 ![Playing Hallow Mud: logging in, meeting Mor Brita in the cemetery and Näcken at the creek, with Gemma answering on the local GPU](https://raw.githubusercontent.com/tobese/hallow-mud/main/docs/hallow-mud-demo.gif)
 
