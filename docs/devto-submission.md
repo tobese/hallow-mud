@@ -25,7 +25,7 @@ That's my take on *Ghost in the Machine*: a ghost that literally comes from the 
 
 ## Demo
 
-**Play it** in two places. Pick a name, create a character, and you're in the Hollow with whoever else is online on that server.
+**Play it** in three places. On the first two, pick a name, create a character, and you're in the Hollow with whoever else is online on that server.
 
 - [q-bert.bearded-panga.ts.net](https://q-bert.bearded-panga.ts.net/tale/): the fast one. Gemma 3 12B runs on the laptop GPU in my home, and the game sits next to it, published with Tailscale Funnel. NPCs answer in seconds. It's a laptop, so it may be asleep.
 - [hallow-mud.onrender.com](https://hallow-mud.onrender.com/tale/): always there. It runs on Render's free plan with Gemma on the Gemini API, so the first visit after a quiet spell takes about a minute to wake up, accounts reset whenever the server restarts, and NPCs take a while to think.
