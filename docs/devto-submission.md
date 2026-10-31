@@ -23,6 +23,10 @@ And you can fight. Take the gravedigger's scythe from the cemetery or the brewer
 
 ![A fight in the root cellar: the player takes the brewery sledgehammer, goes down to the cellar and fights the gengångare while the lamplighter and the vampire talk, kills it, and the Stranger arrives](https://raw.githubusercontent.com/tobese/hallow-mud/main/docs/hallow-mud-fight.gif)
 
+And the same fight the old way, in the terminal version, alone in the Hollow:
+
+![The same fight in the browser terminal: the player walks to the cellar door, takes and wields the sledgehammer, goes down and kills the gengångare with one blow, and the vampire looks at the remains with distaste](https://raw.githubusercontent.com/tobese/hallow-mud/main/docs/hallow-mud-fight-terminal.gif)
+
 And then there is **the Stranger**. We didn't write them. At the start of each game, Gemma gets the story context and one question: *"Someone is here tonight who no one in the Hollow has ever seen before. Who are they?"* Whoever it invents steps out of the fog, and the rest of the cast has to deal with them. In one test run Gemma created Astrid Nylund, a woman with a rifle, who walked straight up to the lamplighter and started questioning him about what had changed in the Hollow. Nobody scripted that.
 
 That's my take on *Ghost in the Machine*: a ghost that literally comes from the machine.
