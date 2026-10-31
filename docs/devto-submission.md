@@ -21,6 +21,8 @@ Every NPC is played by an open-weight model. You talk to them in plain language;
 
 And you can fight. Take the gravedigger's scythe from the cemetery or the brewery's sledgehammer from the cellar stairs, go down into the root cellar and `attack gengångare`. The dice decide who hits; Gemma tells it: *"Your sledgehammer connects with a sickening crunch against the gengångare's face…"* Fall, and you wake among the graves, because the veil won't let anyone go tonight. Kill the gengångare, and three minutes later it claws its way back up out of the earth; *gengångare* is Swedish for "one who walks again".
 
+![A fight in the root cellar: the player takes the brewery sledgehammer, goes down to the cellar and fights the gengångare while the lamplighter and the vampire talk, kills it, and the Stranger arrives](https://raw.githubusercontent.com/tobese/hallow-mud/main/docs/hallow-mud-fight.gif)
+
 And then there is **the Stranger**. We didn't write them. At the start of each game, Gemma gets the story context and one question: *"Someone is here tonight who no one in the Hollow has ever seen before. Who are they?"* Whoever it invents steps out of the fog, and the rest of the cast has to deal with them. In one test run Gemma created Astrid Nylund, a woman with a rifle, who walked straight up to the lamplighter and started questioning him about what had changed in the Hollow. Nobody scripted that.
 
 That's my take on *Ghost in the Machine*: a ghost that literally comes from the machine.
