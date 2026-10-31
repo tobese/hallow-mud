@@ -7,10 +7,11 @@ import os
 import pathlib
 import sys
 import threading
+import types
 from typing import Optional, Generator
 
 import tale
-from tale import util
+from tale import lang, util
 from tale.base import Location, Weapon, Wearable
 from tale.cmds import spells
 from tale.driver import Driver
@@ -28,6 +29,10 @@ from tale.story_context import StoryContext
 from tale.util import Context
 from tale.wearable import WearLocation
 from tale.zone import Zone
+
+
+# what a player can take before falling; also what they wake with
+PLAYER_HP = 10
 
 
 class Story(DynamicStory):
@@ -105,7 +110,7 @@ class Story(DynamicStory):
             name='lie',
             short_descr='a long-handled scythe',
             descr='A long-handled Swedish scythe (lie), used for harvesting but deadly in combat.',
-            wc=WeaponType.TWO_HANDED,
+            weapon_type=WeaponType.TWO_HANDED,
             base_damage=6,
             weight=4.0,
             value=30
@@ -114,7 +119,7 @@ class Story(DynamicStory):
             name='sledgehammer',
             short_descr='a heavy sledgehammer',
             descr='A heavy iron sledgehammer, a common tool in 1800s workshops.',
-            wc=WeaponType.TWO_HANDED,
+            weapon_type=WeaponType.TWO_HANDED,
             base_damage=7,
             weight=8.0,
             value=25
@@ -156,6 +161,14 @@ class Story(DynamicStory):
         """
         import zones.hallow_mud
         zones.hallow_mud.stranger_summoner.summon(self.driver, self)
+        # players start with no skill in any weapon and could never land a blow; with these
+        # they beat the gengångare most of the time, and the werewolf rarely
+        player.stats.weapon_skills.set(WeaponType.UNARMED, 30)
+        player.stats.weapon_skills.set(WeaponType.ONE_HANDED, 40)
+        player.stats.weapon_skills.set(WeaponType.TWO_HANDED, 40)
+        player.stats.hp = player.stats.max_hp = PLAYER_HP
+        # combat defers the death by name on its owner, so it has to stay player.do_on_death
+        player.do_on_death = types.MethodType(do_on_death, player)
 
     def create_account_dialog(self, playerconnection: PlayerConnection, playernaming: PlayerNaming) -> Generator:
         """
@@ -169,6 +182,17 @@ class Story(DynamicStory):
         player.tell("\nThe fog rolls between the crooked wooden houses. The veil is thin tonight...")
         player.tell("\n")
         return "<bright>Press enter to begin.</>"
+
+
+def do_on_death(player: Player) -> None:
+    """ No one stays dead in the Hollow tonight: a fallen player wakes in the cemetery, whole again."""
+    import zones.hallow_mud
+    player.tell("You die.", end=True)
+    player.location.tell("%s falls, and the fog closes over the body." % lang.capital(player.title), exclude_living=player)
+    player.stats.hp = player.stats.max_hp
+    player.move(zones.hallow_mud.cemetery, silent=True)
+    player.tell("...and you wake, cold as the earth, among the graves. The veil is thin tonight, and it will not let you go.", end=True)
+    player.look()
 
 
 if __name__ == "__main__":

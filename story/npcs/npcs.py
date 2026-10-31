@@ -4,7 +4,8 @@ The restless dead (and a few of the living) of Swede Hollow, All Hallows' Eve 18
 import random
 
 import tale.llm.llm_cache as llm_cache
-from tale.base import Living, ParseResult, Weapon
+from tale import mud_context
+from tale.base import Living, Location, ParseResult, Weapon
 from tale.llm.LivingNpc import LivingNpc
 from tale.player import Player
 from tale.quest import Quest, QuestType
@@ -17,6 +18,9 @@ from tale.skills.weapon_type import WeaponType
 # how many times an NPC answers other NPCs before a player speaks again; NPCs name each other
 # when they talk, so without a limit two of them keep a conversation going forever
 NPC_REPLIES_PER_PLAYER_LINE = 1
+
+# real-time seconds before a slain gengångare walks again (that is what the word means)
+GENGANGARE_RISES_AFTER = 180.0
 
 
 class HollowDweller(LivingNpc):
@@ -106,6 +110,12 @@ class Gengangare(Living):
             action = pad_text_for_avatar(action, self.name)
         self.tell_others(action, evoke=False, short_len=True)
 
+    def do_on_death(self):
+        location = self.location
+        remains = super().do_on_death()
+        mud_context.driver.defer(GENGANGARE_RISES_AFTER, gengangare_rises, location)
+        return remains
+
     def handle_verb(self, parsed: ParseResult, actor: Living) -> bool:
         if parsed.verb == "attack":
             self.aggressive = True
@@ -113,6 +123,18 @@ class Gengangare(Living):
             return True
         return False
 
+
+
+def new_gengangare() -> Gengangare:
+    gengangare = Gengangare("gengångare", "m", race="ghoul", descr="A shambling corpse in rotted homespun, its jaw hanging loose. Soil and potato roots spill from its pockets.")
+    gengangare.aliases = {"revenant", "corpse", "zombie"}
+    gengangare.should_produce_remains = True
+    return gengangare
+
+
+def gengangare_rises(location: Location) -> None:
+    location.tell("The dirt floor heaves, and the gengångare claws its way up out of the earth again.")
+    new_gengangare().move(location, silent=True)
 
 brita = HollowDweller("Brita Lindqvist", "f", race="wraith", age=29, descr="A pale, translucent young woman in a faded blue folkdräkt and a white linen headscarf. Her bare feet never quite touch the ground, and her cheeks are hollow from fever.", personality="Mor Brita came from Småland in 1853 and died with her little son Nils in the cholera summer of 1854. She has forgotten where Nils was buried and drifts between the graves calling his name. She is gentle and sorrowful, mixes Swedish words into her English, and begs anyone who will listen to find the painted wooden horse Nils always slept with, so she can lay it on his grave.", short_descr="A pale woman in a faded folkdräkt drifting between the headstones.")
 brita.aliases = {"brita", "mor brita", "ghost", "pale woman"}
@@ -130,7 +152,7 @@ anders.aliases = {"anders", "varg-anders", "trapper", "werewolf"}
 nacken = Nacken("Näcken", "m", race="fae", age=1000, descr="A beautiful, naked young man sitting waist-deep in the black water, playing a fiddle. Water lilies are tangled in his long hair, and the music makes your feet want to walk into the creek.", personality="Näcken is the water spirit of Swedish folklore who followed the immigrants across the ocean. He is charming, playful and utterly without mercy, speaks in riddles and old ballads, and tries to lure listeners into the water to drown. He can be bargained with: he will teach his music, or reveal a secret of the Hollow, in exchange for a gift of meat or a promise.", short_descr="A beautiful young man playing a fiddle in the creek.")
 nacken.aliases = {"näcken", "nacken", "fiddler", "water spirit"}
 
-fiddle = Weapon(name="fiddle", short_descr="a black fiddle", descr="A fiddle of wood gone black from the creek, strung with what looks like human hair. It is always slightly wet, and it hums faintly even when no one plays it.", wc=WeaponType.ONE_HANDED, base_damage=4, weight=1.0, value=100)
+fiddle = Weapon(name="fiddle", short_descr="a black fiddle", descr="A fiddle of wood gone black from the creek, strung with what looks like human hair. It is always slightly wet, and it hums faintly even when no one plays it.", weapon_type=WeaponType.ONE_HANDED, base_damage=4, weight=1.0, value=100)
 fiddle.aliases = {"violin", "fiol", "black fiddle"}
 nacken.init_inventory([fiddle])
 

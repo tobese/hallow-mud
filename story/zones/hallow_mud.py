@@ -1,7 +1,8 @@
 """
 Swede Hollow zone locations
 """
-from tale.base import Location, Exit, Item
+from tale.base import Location, Exit, Item, Weapon
+from tale.skills.weapon_type import WeaponType
 from npcs.npcs import *
 from npcs.stranger import StrangerSummoner
 
@@ -42,13 +43,17 @@ creek_bank.add_exits([Exit(["north", "n"], "hallow_mud.swede_hollow", "Swede Hol
 dalahorse = Item("dalahorse", "small painted wooden horse", descr="A child's dalahäst, carved from pine and painted red with white and blue flowers. Tiny teeth marks are worn into its ears.")
 dalahorse.aliases = {"horse", "wooden horse", "dalahäst"}
 
-gengangare = Gengangare("gengångare", "m", race="ghoul", descr="A shambling corpse in rotted homespun, its jaw hanging loose. Soil and potato roots spill from its pockets.")
-gengangare.aliases = {"revenant", "corpse", "zombie"}
-gengangare.should_produce_remains = True
+# the gravedigger's scythe and the brewery's hammer, for whoever means to fight the dead
+lie = Weapon("lie", title="long-handled scythe", descr="A long-handled Swedish scythe (lie), left among the graves by a gravedigger who didn't stay to finish. The blade is freshly honed.", weapon_type=WeaponType.TWO_HANDED, base_damage=6, weight=4.0, value=30)
+lie.aliases = {"scythe"}
+sledgehammer = Weapon("sledgehammer", title="heavy sledgehammer", descr="A heavy iron sledgehammer from the Hamm brewery, used for knocking the ice loose in the caves. HAMM is burned into the handle.", weapon_type=WeaponType.TWO_HANDED, base_damage=7, weight=8.0, value=25)
+sledgehammer.aliases = {"hammer"}
+
+gengangare = new_gengangare()
 
 swede_hollow.init_inventory([lars])
-cemetery.init_inventory([brita])
-cellar_entrance.init_inventory([gustaf])
+cemetery.init_inventory([brita, lie])
+cellar_entrance.init_inventory([gustaf, sledgehammer])
 cellar.init_inventory([sigrid, gengangare, dalahorse])
 creek_bank.init_inventory([anders, nacken])
 
