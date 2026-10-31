@@ -19,6 +19,8 @@ tags: devchallenge, hf26challenge, gemma, python
 
 Every NPC is played by an open-weight model. You talk to them in plain language; they answer in character, remember you, react to each other, and some of them wander the Hollow on their own. The model rewrites every room description when the server starts, so each night's Hollow reads differently, and all players share it, so looking around never waits on the model.
 
+And you can fight. Take the gravedigger's scythe from the cemetery or the brewery's sledgehammer from the cellar stairs, go down into the root cellar and `attack gengångare`. The dice decide who hits; Gemma tells it: *"Your sledgehammer connects with a sickening crunch against the gengångare's face…"* Fall, and you wake among the graves, because the veil won't let anyone go tonight. Kill the gengångare, and three minutes later it claws its way back up out of the earth; *gengångare* is Swedish for "one who walks again".
+
 And then there is **the Stranger**. We didn't write them. At the start of each game, Gemma gets the story context and one question: *"Someone is here tonight who no one in the Hollow has ever seen before. Who are they?"* Whoever it invents steps out of the fog, and the rest of the cast has to deal with them. In one test run Gemma created Astrid Nylund, a woman with a rifle, who walked straight up to the lamplighter and started questioning him about what had changed in the Hollow. Nobody scripted that.
 
 That's my take on *Ghost in the Machine*: a ghost that literally comes from the machine.
@@ -67,6 +69,7 @@ Switching between them is one line in `llm_config.yaml`.
 - In multiplayer, what you said reached the other players retold by the model; now they hear your words as you said them
 - New players who took more than a minute to create a character were destroyed by the Grim Reaper in Limbo mid sign-up
 - NPCs name each other when they talk, and every named NPC answered, so two of them could talk forever; now an NPC answers other NPCs once per player line
+- Players started with no skill in any weapon, so they could never land a blow, and a slain player kept walking around at zero hit points
 - Stories can now ship their own stylesheet, and their pictures are found wherever the game is started from
 
 Two fixes went upstream as PRs: [#145](https://github.com/neph1/LlamaTale/pull/145), which neph1 has merged, and [#146](https://github.com/neph1/LlamaTale/pull/146).
