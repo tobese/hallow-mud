@@ -2,7 +2,7 @@ FROM python:3.13-slim
 
 WORKDIR /app
 # aiohttp 3.9.0 and PyYAML 6.0.1 have no Python 3.13 wheels and are built from source
-RUN apt-get update && apt-get install -y --no-install-recommends build-essential && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential ttyd && rm -rf /var/lib/apt/lists/*
 COPY LlamaTale/requirements.txt LlamaTale/requirements.txt
 # setuptools provides distutils, which tale imports and Python 3.12+ removed
 RUN pip install --no-cache-dir -r LlamaTale/requirements.txt setuptools
