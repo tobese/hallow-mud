@@ -69,7 +69,6 @@ Switching between them is one line in `llm_config.yaml`.
 - In multiplayer, what you said reached the other players retold by the model; now they hear your words as you said them
 - New players who took more than a minute to create a character were destroyed by the Grim Reaper in Limbo mid sign-up
 - NPCs name each other when they talk, and every named NPC answered, so two of them could talk forever; now an NPC answers other NPCs once per player line
-- Players started with no skill in any weapon, so they could never land a blow, and a slain player kept walking around at zero hit points
 - Stories can now ship their own stylesheet, and their pictures are found wherever the game is started from
 
 Two fixes went upstream as PRs: [#145](https://github.com/neph1/LlamaTale/pull/145), which neph1 has merged, and [#146](https://github.com/neph1/LlamaTale/pull/146).
