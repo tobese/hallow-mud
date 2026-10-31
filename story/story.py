@@ -24,7 +24,7 @@ from tale.player import Player, PlayerConnection
 from tale.charbuilder import PlayerNaming
 from tale.skills.skills import SkillType
 from tale.story import *
-from tale.skills.weapon_type import WeaponType
+from tale.skills.weapon_type import WeaponSkills, WeaponType
 from tale.story_context import StoryContext
 from tale.util import Context
 from tale.wearable import WearLocation
@@ -162,10 +162,15 @@ class Story(DynamicStory):
         import zones.hallow_mud
         zones.hallow_mud.stranger_summoner.summon(self.driver, self)
         # players start with no skill in any weapon and could never land a blow; with these
-        # they beat the gengångare most of the time, and the werewolf rarely
-        player.stats.weapon_skills.set(WeaponType.UNARMED, 30)
-        player.stats.weapon_skills.set(WeaponType.ONE_HANDED, 40)
-        player.stats.weapon_skills.set(WeaponType.TWO_HANDED, 40)
+        # they beat the gengångare most of the time, and the werewolf rarely.
+        # A mud account loads its skills back from JSON as a plain dict keyed "1".."7", so rebuild them.
+        skills = WeaponSkills()
+        for weapon, value in player.stats.weapon_skills.items():
+            skills[WeaponType(int(weapon))] = value
+        skills[WeaponType.UNARMED] = 30
+        skills[WeaponType.ONE_HANDED] = 40
+        skills[WeaponType.TWO_HANDED] = 40
+        player.stats.weapon_skills = skills
         player.stats.hp = player.stats.max_hp = PLAYER_HP
         # combat defers the death by name on its owner, so it has to stay player.do_on_death
         player.do_on_death = types.MethodType(do_on_death, player)
